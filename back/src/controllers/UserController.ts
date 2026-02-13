@@ -8,11 +8,15 @@ class UserController {
         try {
             const { name, email, phone } = req.body;
 
+            const file = req.file as any;
+            const documents = file ? file.location : undefined;
+            const s3Key = file ? file.key : undefined;
+
             if (!name || !email) {
                 throw new Error("Todos esses campos devem ser preenchidos!");
             }
 
-            const newUser = await userServices.newUser({ name, email, phone });
+            const newUser = await userServices.newUser({ name, email, phone, documents, s3Key });
 
             res.status(201).json(newUser);
 
@@ -86,8 +90,13 @@ class UserController {
             const { userID } = req.params;
             const { name, email, phone } = req.body;
 
-            const data = {
-                name, email, phone
+            const file = req.file as any;
+
+            const data: any = { name, email, phone }
+
+            if (file) {
+                data.documents = file.location;
+                data.s3Key = file.key;
             }
 
             const userUpdate = await userServices.updateUser(userID as string, data);

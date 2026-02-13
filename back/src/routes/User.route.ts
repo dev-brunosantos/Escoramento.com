@@ -1,11 +1,14 @@
 import { Router, type Request, type Response } from "express";
 import { UserController } from "../controllers/UserController.js";
+import { upload } from "../configs/multerConfig.js";
+import { s3Upload } from "../configs/awsConfig.js";
+import { verifyRoles } from "../middlewares/verifyRoles.js";
 
 const userRoutes = Router();
 
 const userController = new UserController();
 
-userRoutes.post('/users', async (req: Request, res: Response) => {
+userRoutes.post('/users', s3Upload.single('documents'), async (req: Request, res: Response) => {
     return await userController.create(req, res);
 })
 

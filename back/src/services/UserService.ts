@@ -1,8 +1,11 @@
+import { deleteFileS3 } from "../configs/awsConfig.js";
 import { prisma } from "../configs/prisma.js";
 import type { IUser } from "../interfaces/IUsers.js";
 
+
+
 class UserService {
-    async newUser({ name, email, phone }: IUser) {
+    async newUser({ name, email, phone, documents, s3Key }: IUser) {
 
         const emailExistents = await this.findUserEmail(email);
 
@@ -14,7 +17,9 @@ class UserService {
             data: {
                 name,
                 email,
-                phone: phone ?? null
+                phone: phone ?? null,
+                documents: documents ?? null,
+                s3Key: s3Key ?? null
             }
         });
 
@@ -65,12 +70,18 @@ class UserService {
             }
         }
 
+        if (data.s3Key && getUser?.s3Key) {
+            await deleteFileS3(getUser.s3Key);
+        }
+
         const update = await prisma.user.update({
             where: { id: getUser.id },
             data: {
                 name: data.name ?? getUser.name,
                 email: data.email ?? getUser.email,
-                phone: data.phone ?? getUser.phone
+                phone: data.phone ?? getUser.phone,
+                ...(data.documents && { documents: data.documents }),
+                ...(data.s3Key && { s3Key: data.s3Key }),
             }
         })
 
