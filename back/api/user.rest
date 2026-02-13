@@ -1,0 +1,31 @@
+### CRIA NOVO USUÁRIO
+POST http://localhost:4000/users
+content-type: application/json
+
+{
+    "name": "Teste",
+    "email": "teste@gmail.com",
+    "phone": "12344567"
+}
+
+### LISTA TODOS
+GET http://localhost:4000/users
+
+### BUSCA POR ID
+GET http://localhost:4000/users/698e991bd1420baf86dc1403
+
+### BUSCA POR EMAIL
+GET http://localhost:4000/users/email/brunosdesenvolvedor@gmail.com
+
+### 
+PUT http://localhost:4000/users/698e991bd1420baf86dc1403
+content-type: application/json
+
+{
+  "name": "Teste 1",
+  "email": "brunosflauta@gmail.com",
+  "phone": "987654321"
+}
+
+### DELETA POR ID
+DELETE http://localhost:4000/users/698e991bd1420baf86dc1403
