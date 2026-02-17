@@ -21,8 +21,7 @@ import { Clients, ClientTable } from "./components/ClientTable";
 import { ClientFilter } from "./components/ClientFilter";
 import { MenuAdmin } from "./components/MenuAdmin";
 import { useLogin } from "@/src/contexts/LoginContext";
-import { useEffect, useState } from "react";
-import { api } from "@/src/config/axios.config";
+import { useCallback, useEffect, useState } from "react";
 import { AdminServices } from "@/src/services/adminServices";
 
 export interface UsersFilters {
@@ -35,8 +34,26 @@ const drawerWidth = 260;
 export default function ClientPage() {
 
   const router = useRouter();
-
+  const { getAllUsers } = AdminServices();
   const { logout } = useLogin();
+
+  const [users, setUsers] = useState<Clients[]>([])
+
+  const fetchUsers = useCallback(async (filters?: { userName: string; userRole: string }) => {
+    try {
+      const name = filters?.userName;
+      const role = filters?.userRole === "Todos" ? undefined : filters?.userRole;
+
+      const response = await getAllUsers(name, role);
+      setUsers(response);
+    } catch (error) {
+      console.error("Erro ao buscar usuários", error);
+    }
+  }, [getAllUsers]);
+
+  useEffect(() => {
+    fetchUsers();
+  }, []);
 
 
   return (
@@ -71,10 +88,9 @@ export default function ClientPage() {
         <Box sx={{ p: 4 }}>
           <Card>
             <CardContent>
+              <ClientFilter onFilterChange={fetchUsers} />
 
-              <ClientFilter />
-
-              <ClientTable />
+              <ClientTable data={users} />
             </CardContent>
           </Card>
         </Box>

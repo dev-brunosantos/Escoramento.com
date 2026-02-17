@@ -1,6 +1,6 @@
 "use client"
 
-import { createContext, useContext, useState } from "react"
+import { createContext, useContext, useEffect, useState } from "react"
 import { api } from "../config/axios.config";
 import { useRouter } from "next/navigation";
 
@@ -26,51 +26,133 @@ interface LoginProps {
     logout: () => void;
 }
 
+// const LoginContext = createContext<LoginProps | null>(null);
+
+// const LoginProvider = ({ children }: { children: React.ReactNode }) => {
+
+//     const router = useRouter();
+//     const [user, setUser] = useState<IUser>();
+
+//     const login = async ({ email, password }: UseLogin) => {
+//         if (!email || !password) {
+//             return alert("Todos os campos devem ser preenchidos!")
+//         }
+
+//         const request = await api.post('/login', { email, password }, {
+//             headers: {
+//                 "Content-Type": "application/json"
+//             }
+//         });
+
+//         console.log(request)
+
+//         if (!request.data) {
+//             return alert("Usuário não encontrado.")
+//         }
+//         else {
+//             setUser(request.data.user)
+
+//             localStorage.setItem("user", JSON.stringify(request.data.user))
+//             localStorage.setItem("token", JSON.stringify(request.data.token))
+
+//             if (request.data.user.role == "ADMIN") {
+//                 return router.push('/admin')
+//             }
+//             return router.push('/client')
+//         }
+//     }
+
+//     const logout = () => {
+//         localStorage.removeItem("user");
+//         localStorage.removeItem("token");
+//         return router.replace('/login')
+//     }
+
+//     return (
+//         <LoginContext.Provider value={{ user, login, logout }}>
+//             {children}
+//         </LoginContext.Provider>
+//     )
+// }
+
+// const useLogin = () => {
+//     const context = useContext(LoginContext)
+//     if (!context) throw new Error("Nenhum contexto de LOGIN encontrado.")
+//     return context
+// }
+
+// export { LoginContext, LoginProvider, useLogin }
+
 const LoginContext = createContext<LoginProps | null>(null);
 
 const LoginProvider = ({ children }: { children: React.ReactNode }) => {
-
     const router = useRouter();
-    const [user, setUser] = useState<IUser>();
+    const [user, setUser] = useState<IUser | undefined>(undefined);
+    const [loading, setLoading] = useState(true); // Adicionado para evitar flashes de tela
+
+    // --- ESTA É A PARTE QUE RESOLVE O F5 ---
+    useEffect(() => {
+        const storedUser = localStorage.getItem("user");
+        const storedToken = localStorage.getItem("token");
+
+        if (storedUser && storedToken) {
+            try {
+                setUser(JSON.parse(storedUser));
+                // Opcional: Configurar o header do axios globalmente aqui
+                // api.defaults.headers.common['Authorization'] = `Bearer ${JSON.parse(storedToken)}`;
+            } catch (error) {
+                console.error("Erro ao carregar dados do usuário", error);
+            }
+        }
+        setLoading(false);
+    }, []);
 
     const login = async ({ email, password }: UseLogin) => {
         if (!email || !password) {
             return alert("Todos os campos devem ser preenchidos!")
         }
 
-        const request = await api.post('/login', { email, password }, {
-            headers: {
-                "Content-Type": "application/json"
+        try {
+            const request = await api.post('/login', { email, password });
+
+            if (!request.data || !request.data.user) {
+                return alert("Usuário não encontrado.");
             }
-        });
 
-        console.log(request)
+            const userData = request.data.user;
+            const token = request.data.token;
 
-        if (!request.data) {
-            return alert("Usuário não encontrado.")
-        }
-        else {
-            setUser(request.data.user)
+            // Salva no estado
+            setUser(userData);
 
-            localStorage.setItem("user", JSON.stringify(request.data.user))
-            localStorage.setItem("token", JSON.stringify(request.data.token))
+            // Salva para persistência no F5
+            localStorage.setItem("user", JSON.stringify(userData));
+            localStorage.setItem("token", JSON.stringify(token));
 
-            if (request.data.user.role == "ADMIN") {
-                return router.push('/admin')
+            // DICA: Salve o token num Cookie também se quiser usar Middleware depois!
+            // Cookies.set('token', token, { expires: 7 });
+
+            if (userData.role === "ADMIN") {
+                router.push('/admin');
+            } else {
+                router.push('/client');
             }
-            return router.push('/client')
+        } catch (error) {
+            alert("Erro ao realizar login. Verifique suas credenciais.");
         }
     }
 
     const logout = () => {
         localStorage.removeItem("user");
         localStorage.removeItem("token");
-        return router.replace('/login')
+        setUser(undefined);
+        router.replace('/login');
     }
 
     return (
         <LoginContext.Provider value={{ user, login, logout }}>
-            {children}
+            {/* Opcional: não renderizar nada enquanto carrega o localStorage para evitar bugs de UI */}
+            {!loading && children}
         </LoginContext.Provider>
     )
 }
