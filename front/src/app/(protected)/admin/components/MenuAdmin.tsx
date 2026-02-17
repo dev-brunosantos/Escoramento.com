@@ -45,7 +45,7 @@ export const MenuAdmin = () => {
             <Box sx={{ p: 3, textAlign: "center" }}>
                 <Avatar
                     sx={{ width: 90, height: 90, margin: "0 auto", mb: 2 }}
-                    src="https://i.pravatar.cc/150"
+                    src={user?.image ?? ""}
                 />
                 <Typography variant="h6">
                     {user?.name}

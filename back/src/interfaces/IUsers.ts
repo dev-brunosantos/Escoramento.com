@@ -7,4 +7,5 @@ export interface IUser {
     phone?: string;
     image?: string;
     s3Key?: string;
+    role: "ADMIN" | "CLIENT"
 }

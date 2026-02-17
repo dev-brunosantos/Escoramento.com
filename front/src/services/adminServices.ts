@@ -1,4 +1,5 @@
-import { Clients } from "../app/admin/components/ClientTable";
+
+import { Clients } from "../app/(protected)/admin/components/ClientTable";
 import { api } from "../config/axios.config"
 
 export function AdminServices() {
@@ -19,7 +20,13 @@ export function AdminServices() {
     }
 
     const updateUser = async (id: string, data: Clients) => {
-        const response = await api.put(`/users/${id}`, data)
+        const response = await api.put(
+            `/users/${id}`, 
+            data,
+            {
+                headers: { "Content-Type": "application/json"}
+            }
+        )
         return response.data;
     }
 

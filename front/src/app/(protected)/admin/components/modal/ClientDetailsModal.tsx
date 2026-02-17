@@ -7,6 +7,7 @@ import { Clients } from "../ClientTable";
 import { useClients } from "../../hooks/useClients";
 import { InputDate } from "@/src/components/InputDate";
 import { AdminServices } from "@/src/services/adminServices";
+import { IUser } from "@/src/contexts/LoginContext";
 
 export interface ClientModalProps {
   client: Clients;
@@ -32,69 +33,56 @@ export const ClientDetailsModal = ({
     dateUpdate, setDateUpdate,
     clientEmail, setClientEmail,
     clientPhone, setClientPhone,
+    clientRole, setClientRole
   } = useClients(client)
 
   const [originalValues, setOriginalValues] = useState({
     name: client?.name,
+    document: client?.document,
+    birthDate: client?.birthDate,
+    createdAt: client?.createdAt,
+    updatedAt: client?.updatedAt,
     email: client?.email,
-    phone: client?.phone
+    phone: client?.phone,
+    role: client?.role
   })
 
   const updateData = async () => {
-    const response = await updateUser(
-      client?.id.toString(), client
-    )
-    return response
+    try {
+      if (!edit) {
+        setEdit(true);
+        return;
+      }
+      const newData = {
+        id: client?.id,
+        image: client?.image,
+        name: clientName,
+        document: clientDocument,
+        birthDate: new Date(birthDate),
+        email: clientEmail,
+        phone: clientPhone,
+        role: clientRole,
+        createdAt: new Date(dateCreate),
+        updatedAt: new Date(dateUpdate)
+      };
+
+      const response = await updateUser(client.id.toString(), newData);
+
+      alert("Usuário atualizado com sucesso!");
+      setEdit(false);
+    } catch (error) {
+      console.error("Erro ao atualizar:", error);
+      alert("Falha ao atualizar usuário.");
+    }
   }
 
   const deleteData = async () => {
     const response = await deleteUser(client?.id.toString());
     alert(response)
     setEdit(false)
-    return close() 
+    return close()
   }
 
-  const editValues = async (action: "edit" | "cancel" | "save" | "delete") => {
-
-    if (action === "cancel") {
-      setClientName(originalValues.name)
-      setClientEmail(originalValues.email)
-      setClientPhone(originalValues.phone)
-      return setEdit(false)
-    }
-
-    if (action === "save") {
-      await updateData();
-      alert(`Os dados do usuário ${client?.name} foram salvos com sucesso.`)
-      return setEdit(false)
-    }
-
-    if (action === "delete") {
-      alert(`Os dados do usuário ${client?.name} foram apagados com sucesso.`)
-      return close()
-    }
-
-    if (action === "edit") {
-      return setEdit(true)
-    }
-  }
-
-  useEffect(() => {
-
-    if (open) {
-      setEdit(false)
-
-      setOriginalValues({
-        name: client.name,
-        email: client.email,
-        phone: client.phone
-      })
-
-      setClientName(client.name)
-      setClientEmail(client.email)
-      setClientPhone(client.phone)
-    }
-  }, [open, client])
 
   return (
     <Modal
@@ -113,7 +101,7 @@ export const ClientDetailsModal = ({
               </IconButton>
             </div>
 
-            <div className="w-full flex gap-5">
+            <div className="w-full flex flex-wrap gap-5">
               <TextField
                 label="Nome Completo"
                 variant="outlined"
@@ -151,15 +139,6 @@ export const ClientDetailsModal = ({
                 setDate={setDateCreate}
                 disabled={edit ? false : true}
               />
-
-              <InputDate
-                label="Data de Atualização"
-                dateType={dateType}
-                setDateType={setDateType}
-                value={dateUpdate}
-                setDate={setDateUpdate}
-                disabled={edit ? false : true}
-              />
             </div>
 
             <div className="w-full flex gap-5">
@@ -189,8 +168,10 @@ export const ClientDetailsModal = ({
                 <Select
                   label="Cargo"
                   id="demo-simple-select-filled"
-                  value={client?.role}
+                  value={clientRole}
                   fullWidth
+                  disabled={edit ? false : true}
+                  onChange={(e) => setClientRole(e.target.value)}
                 >
                   <MenuItem value="CLIENT">Cliente</MenuItem>
                   <MenuItem value="ADMIN">Administrador</MenuItem>
@@ -220,7 +201,7 @@ export const ClientDetailsModal = ({
                 variant="contained"
                 startIcon={<Close />}
                 className="w-auto! bg-gray-500!"
-                onClick={() => editValues("cancel")}
+                onClick={() => setEdit(false)}
               >
                 Cancelar
               </Button>
@@ -230,7 +211,7 @@ export const ClientDetailsModal = ({
               variant="contained"
               startIcon={edit ? <Check /> : <Edit />}
               className="w-auto! bg-green-700!"
-              onClick={() => editValues(edit ? "save" : "edit")}
+              onClick={updateData}
             >
               {edit ? "Salvar" : "Editar"}
             </Button>
@@ -239,7 +220,6 @@ export const ClientDetailsModal = ({
               variant="contained"
               startIcon={<Delete />}
               className="w-auto! bg-red-600!"
-              // onClick={() => editValues("delete")}
               onClick={deleteData}
             >
               Apagar
