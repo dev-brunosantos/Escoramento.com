@@ -9,19 +9,21 @@ datasource db {
 }
 
 enum Role {
-  USER
+  CLIENT
   ADMIN
 }
 
 model user {
   id        String   @id @default(auto()) @map("_id") @db.ObjectId
   name      String
-  email     String   @unique // É boa prática marcar o email como único no banco
+  document  String
+  birthDate DateTime
+  email     String   @unique
+  password  String
   phone     String?
-  role      Role     @default(USER)
-  documents String?  // Aqui você salvará a URL (file.location)
-  s3Key     String?  // Adicione isso para salvar o caminho (file.key)
+  role      Role     @default(CLIENT)
+  image     String?
+  s3Key     String?
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
-
 }
