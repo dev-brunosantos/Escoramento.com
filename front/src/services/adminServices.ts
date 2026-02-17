@@ -19,7 +19,13 @@ export function AdminServices() {
     }
 
     const updateUser = async (id: string, data: Clients) => {
-        const response = await api.put(`/users/${id}`, data)
+        const response = await api.put(
+            `/users/${id}`, 
+            data,
+            {
+                headers: { "Content-Type": "application/json"}
+            }
+        )
         return response.data;
     }
 
