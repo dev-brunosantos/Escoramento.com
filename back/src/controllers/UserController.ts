@@ -8,7 +8,7 @@ class UserController {
     async create(req: Request, res: Response) {
         try {
             const {
-                name, document, birthDate, email, password, phone
+                name, document, birthDate, email, password, phone,
             } = req.body;
 
             const file = req.file as any;
@@ -22,7 +22,8 @@ class UserController {
             const passwordCriptografado = await hash(password, 10)
 
             const newUser = await userServices.newUser({
-                name, document, birthDate, email, password: passwordCriptografado, phone, image, s3Key
+                name, document, birthDate, email, password: passwordCriptografado, 
+                phone, image, s3Key, role: "CLIENT"
             });
 
             res.status(201).json(newUser);
@@ -124,11 +125,19 @@ class UserController {
     async update(req: Request, res: Response) {
         try {
             const { userID } = req.params;
-            const { name, email, phone } = req.body;
+            const {
+                name, document, birthDate, 
+                updatedAt, email, phone, role
+            } = req.body;
+
+
 
             const file = req.file as any;
 
-            const data: any = { name, email, phone }
+            const data: any = { 
+                name, document, birthDate, 
+                updatedAt, email, phone, role
+             }
 
             if (file) {
                 data.documents = file.location;

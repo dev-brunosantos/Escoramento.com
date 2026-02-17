@@ -101,10 +101,13 @@ class UserService {
             where: { id: getUser.id },
             data: {
                 name: data.name ?? getUser.name,
+                document: data.document ?? getUser.document,
+                birthDate: data.birthDate ?? getUser.birthDate,
                 email: data.email ?? getUser.email,
                 phone: data.phone ?? getUser.phone,
                 ...(data.image && { documents: data.image }),
                 ...(data.s3Key && { s3Key: data.s3Key }),
+                role: data.role ?? getUser.role
             }
         })
 
