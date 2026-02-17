@@ -1,10 +1,12 @@
 "use client"; // 1. Adicione isso!
 
 import { styled } from '@mui/material/styles';
-import { Button, TextField } from "@mui/material";
-import { CloudUpload } from "@mui/icons-material";
+import { Button, IconButton, InputAdornment, TextField } from "@mui/material";
+import { CloudUpload, Visibility, VisibilityOff, ArrowBack } from "@mui/icons-material";
 import { useState } from 'react';
 import { Logo } from '@/src/components/Logo';
+import { useNewUser } from '@/src/contexts/NewUserContext';
+import { useRouter } from 'next/navigation';
 
 // O VisuallyHiddenInput deve ficar fora do componente principal
 const VisuallyHiddenInput = styled('input')({
@@ -20,30 +22,94 @@ const VisuallyHiddenInput = styled('input')({
 });
 
 export default function Users() {
-    // 2. Dica: Use estados para lidar com o arquivo no Next.js
+
+    const router = useRouter();
+    const { createUser } = useNewUser();
+
+    const [file, setFile] = useState<File | null>(null);
     const [fileName, setFileName] = useState("");
 
+    const [nome, setNome] = useState("");
+    const [documento, setDocumento] = useState("");
     const [dataNascimento, setDataNascimento] = useState("");
     const [dateType, setDateType] = useState("text");
+    const [email, setEmail] = useState("");
+
+    const [showPassword, setShowPassword] = useState(false);
+    const handleClickShowPassword = () => setShowPassword(!showPassword);
+    const [senha, setSenha] = useState("")
+
+    const [telefone, setTelefone] = useState("")
+
+    // const handleFileChange = (event: any) => {
+    //     const file = event.target.files[0];
+    //     if (file) setFileName(file.name);
+    // };
 
     const handleFileChange = (event: any) => {
-        const file = event.target.files[0];
-        if (file) setFileName(file.name);
+        const selectedFile = event.target.files[0];
+
+        if (selectedFile) {
+            setFile(selectedFile);
+            setFileName(selectedFile.name);
+        }
     };
+
+    const handleSubmit = async () => {
+
+        const formData = new FormData();
+
+        formData.append("name", nome);
+        formData.append("document", documento);
+        formData.append("birthDate", dataNascimento);
+        formData.append("email", email);
+        formData.append("password", senha);
+        formData.append("phone", telefone);
+
+        // if (fileName) {
+        //     formData.append("image", fileName);
+        // }
+
+        if (file) {
+            formData.append("image", file);
+        }
+
+        await createUser(formData as any);
+    }
 
     return (
         <div className="min-h-screen w-full text-black flex items-center justify-center bg-gray-100 p-4">
             <form
                 className="w-full max-w-[500px] rounded-xl bg-white border border-gray-200 p-8 shadow-2xl flex flex-col gap-8"
+                onSubmit={(e) => e.preventDefault()}
             >
                 <Logo />
 
                 <div className="flex flex-col gap-5">
-                    <h2 className="text-lg font-semibold text-gray-500 pb-2">Área do Cliente</h2>
-                    <TextField label="Nome Completo" fullWidth variant="outlined" />
+                    <Button
+                        variant='outlined'
+                        className='border-green-700! text-green-700! max-w-30!'
+                        startIcon={<ArrowBack />}
+                        onClick={() => router.back()}
+                    >
+                        Voltar
+                    </Button>
+
+                    <h2 className="text-lg font-semibold text-gray-500 pb-2">Cadastro do Usuário</h2>
+                    <TextField
+                        label="Nome Completo"
+                        fullWidth
+                        variant="outlined"
+                        onChange={(e) => setNome(e.target.value)}
+                    />
 
                     <div className='w-full flex gap-5'>
-                        <TextField label="CPF / CNPJ" fullWidth variant="outlined" />
+                        <TextField
+                            label="CPF / CNPJ"
+                            fullWidth
+                            variant="outlined"
+                            onChange={(e) => setDocumento(e.target.value)}
+                        />
 
                         <TextField
                             label="Data de Nascimento"
@@ -61,8 +127,36 @@ export default function Users() {
                         />
                     </div>
 
-                    <TextField label="E-mail" fullWidth variant="outlined" />
-                    <TextField label="Telefone" fullWidth variant="outlined" />
+                    <TextField
+                        label="E-mail"
+                        fullWidth
+                        variant="outlined"
+                        onChange={(e) => setEmail(e.target.value)}
+                    />
+                    <div className='flex gap-2'>
+                        <TextField
+                            label="Senha"
+                            fullWidth
+                            variant="outlined"
+                            type={showPassword ? "text" : "password"}
+                            onChange={(e) => setSenha(e.target.value)}
+                            InputProps={{
+                                endAdornment: (
+                                    <InputAdornment position="end">
+                                        <IconButton onClick={handleClickShowPassword} >
+                                            {showPassword ? <Visibility /> : <VisibilityOff />}
+                                        </IconButton>
+                                    </InputAdornment>
+                                ),
+                            }}
+                        />
+                        <TextField
+                            label="Telefone"
+                            fullWidth
+                            variant="outlined"
+                            onChange={(e) => setTelefone(e.target.value)}
+                        />
+                    </div>
                 </div>
 
                 <div className="flex flex-col gap-4">
@@ -75,7 +169,7 @@ export default function Users() {
                     >
                         <CloudUpload sx={{ fontSize: 40, color: '#00a63e' }} />
                         <span className="text-sm text-gray-600">
-                            {fileName ? `Selecionado: ${fileName}` : "Anexar Documento ou Imagem"}
+                            {fileName ? `Selecionado: ${fileName}` : "Imagem do perfil"}
                         </span>
                         <VisuallyHiddenInput
                             type="file"
@@ -86,8 +180,11 @@ export default function Users() {
                     <Button
                         variant="contained"
                         size="large"
-                        type="submit"
+                        type="button"
                         className="bg-green-700! hover:bg-green-900! py-4 font-bold"
+                        onClick={async () => {
+                            return await handleSubmit()
+                        }}
                     >
                         Cadastrar Cliente
                     </Button>
