@@ -3,9 +3,10 @@ import { prisma } from "../configs/prisma.js";
 import type { IUser } from "../interfaces/IUsers.js";
 
 
-
 class UserService {
-    async newUser({ name, email, phone, documents, s3Key }: IUser) {
+    async newUser({
+        name, document, birthDate, email, password, phone, image, s3Key
+    }: IUser) {
 
         const emailExistents = await this.findUserEmail(email);
 
@@ -16,9 +17,12 @@ class UserService {
         const user = await prisma.user.create({
             data: {
                 name,
+                document,
+                birthDate: new Date(birthDate),
                 email,
+                password,
                 phone: phone ?? null,
-                documents: documents ?? null,
+                image: image ?? null,
                 s3Key: s3Key ?? null
             }
         });
@@ -30,6 +34,25 @@ class UserService {
         const users = await prisma.user.findMany();
         return users;
     }
+
+    async usersParams(role?: string, name?: string) {
+    const users = await prisma.user.findMany({
+        where: {
+            ...(name && {
+                name: {
+                    contains: name,
+                    mode: "insensitive"
+                }
+            }),
+            ...(role && role !== "Todos" && {
+                role: role as "ADMIN" | "CLIENT"
+            })
+        }
+    });
+
+    return users;
+}
+
 
     async findUserID(id: string) {
         const userID = await prisma.user.findFirst({
@@ -80,7 +103,7 @@ class UserService {
                 name: data.name ?? getUser.name,
                 email: data.email ?? getUser.email,
                 phone: data.phone ?? getUser.phone,
-                ...(data.documents && { documents: data.documents }),
+                ...(data.image && { documents: data.image }),
                 ...(data.s3Key && { s3Key: data.s3Key }),
             }
         })

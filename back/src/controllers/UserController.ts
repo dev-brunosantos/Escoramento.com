@@ -1,22 +1,29 @@
 import type { Request, Response } from "express";
 import { UserService } from "../services/UserService.js";
+import { hash } from "bcrypt";
 
 const userServices = new UserService();
 
 class UserController {
     async create(req: Request, res: Response) {
         try {
-            const { name, email, phone } = req.body;
+            const {
+                name, document, birthDate, email, password, phone
+            } = req.body;
 
             const file = req.file as any;
-            const documents = file ? file.location : undefined;
+            const image = file ? file.location : undefined;
             const s3Key = file ? file.key : undefined;
 
             if (!name || !email) {
                 throw new Error("Todos esses campos devem ser preenchidos!");
             }
 
-            const newUser = await userServices.newUser({ name, email, phone, documents, s3Key });
+            const passwordCriptografado = await hash(password, 10)
+
+            const newUser = await userServices.newUser({
+                name, document, birthDate, email, password: passwordCriptografado, phone, image, s3Key
+            });
 
             res.status(201).json(newUser);
 
@@ -25,14 +32,43 @@ class UserController {
         }
     }
 
+    // async getAll(req: Request, res: Response) {
+    //     const response = await userServices.users();
+
+    //     if (!response || response.length == 0) {
+    //         return res.status(404).json({ error: "Nenhum usuário cadastrado no sistema." });
+    //     }
+
+    //     return res.json(response)
+    // }
+
     async getAll(req: Request, res: Response) {
-        const response = await userServices.users();
+        try {
+            const name =
+                typeof req.query.name === "string"
+                    ? req.query.name
+                    : undefined;
 
-        if (!response || response.length == 0) {
-            return res.status(404).json({ error: "Nenhum usuário cadastrado no sistema." });
+            const role =
+                typeof req.query.role === "string"
+                    ? req.query.role
+                    : undefined;
+
+            const users = await userServices.usersParams(role, name);
+
+            if (!users || users.length === 0) {
+                return res.status(404).json({
+                    error: "Nenhum usuário encontrado."
+                });
+            }
+
+            return res.status(200).json(users);
+
+        } catch (error) {
+            return res.status(500).json({
+                message: "Erro ao buscar usuários"
+            });
         }
-
-        return res.json(response)
     }
 
     async getByID(req: Request, res: Response) {
