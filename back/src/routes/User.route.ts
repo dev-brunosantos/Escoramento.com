@@ -8,13 +8,15 @@ const userRoutes = Router();
 
 const userController = new UserController();
 
-userRoutes.post('/users', s3Upload.single('documents'), async (req: Request, res: Response) => {
+userRoutes.post('/users', s3Upload.single('image'), async (req: Request, res: Response) => {
     return await userController.create(req, res);
 })
 
-userRoutes.get('/users', async (req: Request, res: Response) => {
-    return await userController.getAll(req, res);
-})
+// userRoutes.get('/users', async (req: Request, res: Response) => {
+//     return await userController.getAll(req, res);
+// })
+
+userRoutes.get('/users', userController.getAll.bind(userController));
 
 userRoutes.get('/users/:userID', async (req: Request, res: Response) => {
     return await userController.getByID(req, res);
