@@ -1,5 +1,6 @@
 "use client";
 
+
 import {
   Box,
   Button,
@@ -23,6 +24,7 @@ import { MenuAdmin } from "./components/MenuAdmin";
 import { useLogin } from "@/src/contexts/LoginContext";
 import { useCallback, useEffect, useState } from "react";
 import { AdminServices } from "@/src/services/adminServices";
+import { RoleGuard } from "@/src/components/RoleGuard";
 
 export interface UsersFilters {
   name: string;
@@ -57,6 +59,7 @@ export default function ClientPage() {
 
 
   return (
+    <RoleGuard allowedRole="ADMIN" >
     <Box sx={{ display: "flex", minHeight: "100vh", bgcolor: grey[100] }}>
       <CssBaseline />
 
@@ -96,5 +99,6 @@ export default function ClientPage() {
         </Box>
       </Box>
     </Box>
+    </RoleGuard>
   );
 }
