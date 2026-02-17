@@ -3,24 +3,30 @@
 import { useEffect, useState } from 'react';
 import {
     Table, TableBody, TableCell, TableContainer,
-    TableHead, TableRow, Paper, CircularProgress, Box,
-    Button, IconButton
+    TableHead, TableRow, Paper, Button
 } from '@mui/material';
 
 import { DeleteOutline, Edit, Visibility } from "@mui/icons-material";
-import { ClientEditModal } from './modal/ClientEditModal';
+import { ClientDetailsModal } from './modal/ClientDetailsModal';
 import { ClientCreateModal } from './modal/ClientCreateModal';
+import { api } from '@/src/config/axios.config';
 
 export interface Clients {
     id: number,
     name: string;
+    document: string;
+    birthDate: Date;
     email: string;
     phone: string;
     status: string;
-    document: string;
+    image: string;
+    createdAt: Date;
+    updatedAt: Date;
+    role: string;
 }
 
-export const ClientTable = ({OpenModalCreate} : { OpenModalCreate : (data: boolean) => void}) => {
+// export const ClientTable = ({OpenModalCreate} : { OpenModalCreate : (data: boolean) => void}) => {
+export const ClientTable = () => {
 
     const [openModal, setOpenModal] = useState(false);
     const [selectedClient, setSelectedClient] = useState<Clients>()
@@ -30,64 +36,35 @@ export const ClientTable = ({OpenModalCreate} : { OpenModalCreate : (data: boole
         setOpenModal(true);
     }
 
-    const MOCK_CLIENTS: Clients[] = [
-        {
-            id: 1,
-            name: "João Silva Sauro",
-            email: "joao.silva@email.com",
-            phone: "(11) 98888-7777",
-            status: "Ativo",
-            document: "123.456.789-00"
-        },
-        {
-            id: 2,
-            name: "Maria Oliveira Santos",
-            email: "maria.oliveira@empresa.com.br",
-            phone: "(21) 97777-6666",
-            status: "Pendente",
-            document: "987.654.321-11"
-        },
-        {
-            id: 3,
-            name: "Carlos Eduardo de Souza",
-            email: "cadu.souza@gmail.com",
-            phone: "(31) 96666-5555",
-            status: "Inativo",
-            document: "456.123.789-22"
-        },
-        {
-            id: 4,
-            name: "Ana Beatriz Ferreira",
-            email: "ana.bea@outlook.com",
-            phone: "(41) 95555-4444",
-            status: "Ativo",
-            document: "321.654.987-33"
-        },
-        {
-            id: 5,
-            name: "Roberto Carlos Braga",
-            email: "rei@musica.com.br",
-            phone: "(11) 94444-3333",
-            status: "Ativo",
-            document: "111.222.333-44"
+    const [clients, setClients] = useState<Clients[]>([])
+
+    useEffect(() => {
+        async function teste() {
+            const response = await api.get('/users')
+            const data = response.data
+
+            setClients(data)
         }
-    ];
+
+        teste()
+    }, [])
 
     return (
         <>
-            <TableContainer component={Paper} className="shadow-lg max-w-250 m-auto">
+            {/* <TableContainer component={Paper} className="shadow-lg max-w-250 m-auto"> */}
+            <TableContainer component={Paper} className="shadow-lg  m-auto">
                 <Table sx={{ minWidth: 650 }}>
                     <TableHead className="bg-gray-50">
                         <TableRow>
                             <TableCell className="font-bold">Nome</TableCell>
                             <TableCell className="font-bold">E-mail</TableCell>
                             <TableCell className="font-bold">Telefone</TableCell>
-                            <TableCell className="font-bold" align="left">Ações</TableCell>
+                            <TableCell className="font-bold" align="left"></TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {MOCK_CLIENTS.length > 0 ? (
-                            MOCK_CLIENTS.map((client) => (
+                        {clients.length > 0 ? (
+                            clients.map((client) => (
                                 <TableRow key={client.id} hover>
                                     <TableCell>{client.name}</TableCell>
                                     <TableCell>{client.email}</TableCell>
@@ -95,11 +72,10 @@ export const ClientTable = ({OpenModalCreate} : { OpenModalCreate : (data: boole
                                     <TableCell align="left" >
                                         <Button
                                             variant='contained'
-                                            className='bg-green-700!'
-                                            startIcon={<Edit />}
+                                            className='bg-gray-500!'
                                             onClick={() => modalEdit(client)}
                                         >
-                                            Editar
+                                            Detalhes
                                         </Button>
                                     </TableCell>
                                 </TableRow>
@@ -115,7 +91,7 @@ export const ClientTable = ({OpenModalCreate} : { OpenModalCreate : (data: boole
                 </Table>
             </TableContainer>
 
-            <ClientEditModal
+            <ClientDetailsModal
                 client={selectedClient}
                 open={openModal}
                 close={() => setOpenModal(false)}
