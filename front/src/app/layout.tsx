@@ -28,15 +28,15 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="pt-br">
-      <AppRouterCacheProvider>
-        <AppProvider>
-          <body
-            className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-          >
+      <body
+        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+      >
+        <AppRouterCacheProvider>
+          <AppProvider>
             {children}
-          </body>
-        </AppProvider>
-      </AppRouterCacheProvider>
+          </AppProvider>
+        </AppRouterCacheProvider>
+      </body>
     </html>
   );
 }
