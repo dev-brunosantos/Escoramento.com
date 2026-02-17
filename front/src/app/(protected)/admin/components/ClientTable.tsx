@@ -7,6 +7,7 @@ import {
 } from '@mui/material';
 
 import { ClientDetailsModal } from './modal/ClientDetailsModal';
+import { ClientFilter } from './ClientFilter';
 
 export interface Clients {
   id: string,
@@ -21,7 +22,13 @@ export interface Clients {
   role: string;
 }
 
-export const ClientTable = ({ data }: { data: Clients[] }) => {
+interface Props {
+  data: Clients[];
+  fetchUsers: () => void;
+}
+
+// export const ClientTable = ({ data }: { data: Clients[] }) => {
+export const ClientTable = ({ data, fetchUsers }:Props) => {
 
   const [openModal, setOpenModal] = useState(false);
   const [selectedClient, setSelectedClient] = useState<Clients>()
@@ -32,8 +39,10 @@ export const ClientTable = ({ data }: { data: Clients[] }) => {
   }
 
   return (
-    <>
-      <TableContainer component={Paper} className="shadow-lg  m-auto">
+    <div>
+      <ClientFilter onFilterChange={fetchUsers} />
+
+      <TableContainer component={Paper} className="shadow-lg  m-auto" sx={{ width: "100%", overflowX: 'auto'}}>
         <Table sx={{ minWidth: 650 }}>
           <TableHead className="bg-gray-50">
             <TableRow>
@@ -44,8 +53,8 @@ export const ClientTable = ({ data }: { data: Clients[] }) => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {data.length > 0 ? (
-              data.map((user) => (
+            {data?.length > 0 ? (
+              data?.map((user) => (
                 <TableRow key={user.id} hover>
                   <TableCell>{user.name}</TableCell>
                   <TableCell>{user.email}</TableCell>
@@ -77,6 +86,6 @@ export const ClientTable = ({ data }: { data: Clients[] }) => {
         open={openModal}
         close={() => setOpenModal(false)}
       />
-    </>
+    </div>
   );
 };

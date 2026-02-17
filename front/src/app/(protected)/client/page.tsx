@@ -10,33 +10,54 @@ import {
   Typography,
   AppBar,
   Toolbar,
+  Divider,
+  ListItem,
+  ListItemButton,
+  ListItemIcon,
+  ListItemText,
 } from "@mui/material";
 
 import {
-  ExitToApp
+  Dashboard,
+  ExitToApp,
+  Person
 } from "@mui/icons-material";
 
 import { green, grey } from "@mui/material/colors";
-import { useRouter } from "next/navigation";
 import { MenuClient } from "./components/MenuClient";
 import { ClientTable } from "./components/ClientTable";
 import { useLogin } from "@/src/contexts/LoginContext";
 import { RoleGuard } from "@/src/components/RoleGuard";
-
-const drawerWidth = 260;
+import { useRouter, useSearchParams } from "next/navigation";
+import { PerfilDetails } from "../PerfilDetails";
+import { useMemo } from "react";
+import Link from "next/link";
 
 export default function ClientPage() {
 
   const router = useRouter();
-
   const { logout } = useLogin();
+
+  const searchParams = useSearchParams();
+  const currentTab = searchParams.get("tab") || "dashboard";
+
+  const renderContent = () => {
+    switch (currentTab) {
+      case "":
+        return <ClientTable />;
+      case "dados":
+        return <PerfilDetails />;
+      default:
+        return <Typography>Bem-vindo ao Painel</Typography>;
+    }
+  };
 
   return (
     <RoleGuard allowedRole="CLIENT">
       <Box sx={{ display: "flex", minHeight: "100vh", bgcolor: grey[100] }}>
         <CssBaseline />
 
-        <MenuClient />
+        {/* <MenuClient /> */}
 
         {/* Content */}
         <Box component="main" sx={{ flexGrow: 1 }}>
@@ -59,59 +80,34 @@ export default function ClientPage() {
                 </Button>
               </Box>
             </Toolbar>
+
+            <div className="md:hidden">
+              <Divider />
+
+              <Toolbar sx={{ justifyContent: "space-between" }}>
+                <ListItem disablePadding>
+                    <ListItemButton onClick={() => router.push("/client?tab=dashboard")}>
+                      <ListItemIcon sx={{ color: "#bababa" }}>
+                        <Dashboard />
+                      </ListItemIcon>
+                      <ListItemText primary="Dashbord" />
+                    </ListItemButton>
+                  </ListItem>
+
+                <ListItem disablePadding>
+                  <ListItemButton onClick={() => router.push("/client?tab=dados")}>
+                    <ListItemIcon sx={{ color: "#bababa" }}>
+                      <Person />
+                    </ListItemIcon>
+                    <ListItemText primary="Meus Dados" />
+                  </ListItemButton>
+                </ListItem>
+              </Toolbar>
+            </div>
           </AppBar>
 
           <Box sx={{ p: 4 }}>
-            {/* Cards resumo */}
-            <Grid container spacing={3} mb={4}>
-              <Grid item xs={12} md={4}>
-                <Card sx={{ bgcolor: green[700], color: "#fff" }}>
-                  <CardContent>
-                    <Typography variant="body2">
-                      Saldo Atual
-                    </Typography>
-                    <Typography variant="h5">
-                      R$ 5.320,00
-                    </Typography>
-                  </CardContent>
-                </Card>
-              </Grid>
-
-              <Grid item xs={12} md={4}>
-                <Card>
-                  <CardContent>
-                    <Typography variant="body2" color={grey[600]}>
-                      Faturas Pendentes
-                    </Typography>
-                    <Typography variant="h5">2</Typography>
-                  </CardContent>
-                </Card>
-              </Grid>
-
-              <Grid item xs={12} md={4}>
-                <Card>
-                  <CardContent>
-                    <Typography variant="body2" color={grey[600]}>
-                      Último Acesso
-                    </Typography>
-                    <Typography variant="h6">
-                      20/04/2024
-                    </Typography>
-                  </CardContent>
-                </Card>
-              </Grid>
-            </Grid>
-
-            {/* Documentos */}
-            <Card>
-              <CardContent>
-                <Typography variant="h6" mb={2}>
-                  Documentos Recentes
-                </Typography>
-
-                <ClientTable />
-              </CardContent>
-            </Card>
+            {renderContent()}
           </Box>
         </Box>
       </Box>

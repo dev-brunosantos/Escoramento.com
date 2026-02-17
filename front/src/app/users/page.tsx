@@ -83,7 +83,7 @@ export default function Users() {
                 className="w-full max-w-[500px] rounded-xl bg-white border border-gray-200 p-8 shadow-2xl flex flex-col gap-8"
                 onSubmit={(e) => e.preventDefault()}
             >
-                <Logo />
+                <Logo textSize='text-[30px]' />
 
                 <div className="flex flex-col gap-5">
                     <Button

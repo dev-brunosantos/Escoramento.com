@@ -5,7 +5,7 @@ import { useLogin } from "../contexts/LoginContext";
 
 interface RoleGuardProps {
   children: React.ReactNode;
-  allowedRole: 'ADMIN' | 'CLIENT'; // Ajuste conforme seu back-end
+  allowedRole: 'ADMIN' | 'CLIENT';
 }
 
 export function RoleGuard({ children, allowedRole }: RoleGuardProps) {
@@ -15,9 +15,8 @@ export function RoleGuard({ children, allowedRole }: RoleGuardProps) {
   useEffect(() => {
     if (!loading) {
       if (!user) {
-        router.replace('/login');
+        router.replace('/');
       } else if (user.role !== allowedRole) {
-        // Se o cargo estiver errado, manda para a tela correta dele
         const target = user.role === 'ADMIN' ? '/admin' : '/client';
         router.replace(target);
         alert("Você não tem permissão para acessar esta página.");
@@ -26,7 +25,7 @@ export function RoleGuard({ children, allowedRole }: RoleGuardProps) {
   }, [user, loading, allowedRole, router]);
 
   if (loading || !user || user.role !== allowedRole) {
-    return <div>Carregando...</div>; // Ou um esqueleto de loading
+    return <div>Carregando...</div>;
   }
 
   return <>{children}</>;

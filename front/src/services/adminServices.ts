@@ -1,4 +1,5 @@
-import { Clients } from "../app/admin/components/ClientTable";
+
+import { Clients } from "../app/(protected)/admin/components/ClientTable";
 import { api } from "../config/axios.config"
 
 export function AdminServices() {

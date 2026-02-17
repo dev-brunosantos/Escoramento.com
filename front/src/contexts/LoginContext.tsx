@@ -10,7 +10,8 @@ interface UseLogin {
     password: string;
 }
 
-interface IUser {
+export interface IUser {
+    id: string;
     name: string;
     document: string;
     birthDate: Date;
@@ -20,6 +21,8 @@ interface IUser {
     image?: string;
     s3Key?: string;
     role: string;
+    createdAt: Date;
+    updatedAt: Date;
 }
 
 interface LoginProps {
@@ -71,9 +74,9 @@ const LoginProvider = ({ children }: { children: React.ReactNode }) => {
             Cookies.set('token', token, { expires: 7 });
 
             if (userData.role === "ADMIN") {
-                router.push('/admin');
+                router.push('/admin?tab=client');
             } else {
-                router.push('/client');
+                router.push('/client?tab=dashboard');
             }
         } catch (error) {
             alert("Erro ao realizar login. Verifique suas credenciais.");
@@ -85,7 +88,7 @@ const LoginProvider = ({ children }: { children: React.ReactNode }) => {
         localStorage.removeItem("token");
         setUser(undefined);
         Cookies.remove('token');
-        router.replace('/login');
+        router.replace('/');
     }
 
     return (

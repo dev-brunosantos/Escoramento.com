@@ -7,6 +7,7 @@ import { Clients } from "../ClientTable";
 import { useClients } from "../../hooks/useClients";
 import { InputDate } from "@/src/components/InputDate";
 import { AdminServices } from "@/src/services/adminServices";
+import { IUser } from "@/src/contexts/LoginContext";
 
 export interface ClientModalProps {
   client: Clients;
@@ -100,7 +101,7 @@ export const ClientDetailsModal = ({
               </IconButton>
             </div>
 
-            <div className="w-full flex gap-5">
+            <div className="w-full flex flex-wrap gap-5">
               <TextField
                 label="Nome Completo"
                 variant="outlined"
@@ -136,15 +137,6 @@ export const ClientDetailsModal = ({
                 setDateType={setDateType}
                 value={dateCreate}
                 setDate={setDateCreate}
-                disabled={edit ? false : true}
-              />
-
-              <InputDate
-                label="Data de Atualização"
-                dateType={dateType}
-                setDateType={setDateType}
-                value={dateUpdate}
-                setDate={setDateUpdate}
                 disabled={edit ? false : true}
               />
             </div>
