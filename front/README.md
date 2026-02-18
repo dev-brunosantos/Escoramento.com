@@ -72,7 +72,7 @@ npm install --force
 
 - Configurar Variáveis de Ambiente:
 
-Crie um arquivo .env na pasta front e adicione suas credenciais do MongoDB e AWS S3:
+Crie um arquivo .env na pasta front e adicione a URL de conexão com da API (Back):
 
 ```
 NEXT_PUBLIC_API_URL = "URL DE CONEXÃO DA API (BACK)"
