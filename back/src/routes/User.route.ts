@@ -1,8 +1,6 @@
 import { Router, type Request, type Response } from "express";
 import { UserController } from "../controllers/UserController.js";
-import { upload } from "../configs/multerConfig.js";
 import { s3Upload } from "../configs/awsConfig.js";
-import { verifyRoles } from "../middlewares/verifyRoles.js";
 
 const userRoutes = Router();
 
