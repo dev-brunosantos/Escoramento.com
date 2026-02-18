@@ -1,36 +1,101 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Desafio Técnico - Sistema de Cadastro de Clientes (Full Stack)
 
-## Getting Started
+Este projeto foi desenvolvido como parte de um teste técnico para a vaga de Desenvolvedor Full Stack. A aplicação consiste em um sistema de cadastro onde clientes podem enviar dados e documentos, e operadores podem gerenciar esses registros.
 
-First, run the development server:
+## 🎯 Objetivo do Projeto
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+Demonstrar proficiência no desenvolvimento de uma aplicação ponta a ponta, focando em:
+
+Upload de arquivos: Integração direta com AWS S3.
+
+Persistência de dados: Modelagem e manipulação de dados com MongoDB e Prisma.
+
+Criação e consumo de API: Backend robusto em Node.js e frontend dinâmico em Next.js.
+
+UX/UI: Interfaces distintas para Clientes (formulário) e Operadores (dashboard admin).
+
+## 👥 Funcionalidades
+
+#### Interface do Usuário (Cliente)
+
+Formulário para preenchimento de dados pessoais (Nome, E-mail, Telefone...).
+
+Upload de arquivos (imagem do perfil do usuário).
+
+#### Interface do Operador (Admin)
+
+Listagem completa de clientes cadastrados.
+
+Visualização de detalhes e edição de dados.
+
+Acesso direto ao arquivo armazenado no AWS S3 via URL.
+
+## 🚀 Tecnologias
+
+### Frontend
+
+- Next.js (Framework React)
+
+- Axios (Cliente HTTP)
+
+- Material UI (MUI) (Biblioteca de componentes)
+
+## 🛠️ Como Executar o Projeto Localmente
+
+1. Clonar o Repositório
+
+Abra o seu terminal e execute o comando abaixo:
+
+``` bash
+git clone https://github.com/dev-brunosantos/Escoramento.com.git
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Em seguida, entre na pasta raiz do projeto:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+``` bash
+cd seu-repositorio
+``` 
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+2. Configurando o Frontend
 
-## Learn More
+- Acessar a pasta (a partir da raiz):
 
-To learn more about Next.js, take a look at the following resources:
+``` bash
+cd front
+``` 
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- Instalar as dependências:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+``` bash
+npm install --force
+``` 
 
-## Deploy on Vercel
+- Configurar Variáveis de Ambiente:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Crie um arquivo .env na pasta backend e adicione suas credenciais do MongoDB e AWS S3:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```
+NEXT_PUBLIC_API_URL = "URL DE CONEXÃO DA API (BACK)"
+```
+
+- Rodar em modo de desenvolvimento:
+
+``` bash
+npm run dev
+``` 
+
+- Build da aplicação:
+
+``` bash
+npm run build
+``` 
+
+## 📦 Scripts Disponíveis
+
+No Backend e Frontend:
+
+- npm install: Baixa todas as bibliotecas necessárias.
+
+- npm run dev: Inicia o servidor local para desenvolvimento com hot-reload.
+
+- npm run build: Compila o código TypeScript/Next.js para JavaScript otimizado para produção.
