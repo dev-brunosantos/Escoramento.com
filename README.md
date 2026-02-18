@@ -64,7 +64,7 @@ Acesso direto ao arquivo armazenado no AWS S3 via URL.
 Abra o seu terminal e execute o comando abaixo:
 
 ``` bash
-git clone [https://github.com/dev-brunosantos/Escoramento.com.git](https://github.com/dev-brunosantos/Escoramento.com.git)
+git https://github.com/dev-brunosantos/Escoramento.com.git
 ```
 
 Em seguida, entre na pasta raiz do projeto:
