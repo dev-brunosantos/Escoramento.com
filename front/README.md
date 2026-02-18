@@ -1,4 +1,4 @@
-# Desafio Técnico - Sistema de Cadastro de Clientes (Full Stack)
+# Desafio Técnico - Sistema de Cadastro de Clientes (Front)
 
 Este projeto foi desenvolvido como parte de um teste técnico para a vaga de Desenvolvedor Full Stack. A aplicação consiste em um sistema de cadastro onde clientes podem enviar dados e documentos, e operadores podem gerenciar esses registros.
 
@@ -72,7 +72,7 @@ npm install --force
 
 - Configurar Variáveis de Ambiente:
 
-Crie um arquivo .env na pasta backend e adicione suas credenciais do MongoDB e AWS S3:
+Crie um arquivo .env na pasta front e adicione suas credenciais do MongoDB e AWS S3:
 
 ```
 NEXT_PUBLIC_API_URL = "URL DE CONEXÃO DA API (BACK)"

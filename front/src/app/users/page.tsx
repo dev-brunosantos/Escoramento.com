@@ -75,6 +75,8 @@ export default function Users() {
         }
 
         await createUser(formData as any);
+
+        return router.push('/')
     }
 
     return (
