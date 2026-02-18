@@ -1,6 +1,39 @@
-# Projeto Full Stack (Node.js & Next.js)
+<!-- # Desafio Técnico: Projeto Full Stack (Node.js & Next.js) -->
+<!-- # Desafio Técnico: Projeto Full Stack (Node.js & Next.js)
 
-Este é um projeto full stack que utiliza Node.js com Prisma e MongoDB no backend, e Next.js com Material UI no frontend. A aplicação também possui integração com AWS S3 para armazenamento de arquivos.
+Este é um projeto full stack que utiliza Node.js com Prisma e MongoDB no backend, e Next.js com Material UI no frontend. A aplicação também possui integração com AWS S3 para armazenamento de arquivos. -->
+
+# Desafio Técnico - Sistema de Cadastro de Clientes (Full Stack)
+
+Este projeto foi desenvolvido como parte de um teste técnico para a vaga de Desenvolvedor Full Stack. A aplicação consiste em um sistema de cadastro onde clientes podem enviar dados e documentos, e operadores podem gerenciar esses registros.
+
+## 🎯 Objetivo do Projeto
+
+Demonstrar proficiência no desenvolvimento de uma aplicação ponta a ponta, focando em:
+
+Upload de arquivos: Integração direta com AWS S3.
+
+Persistência de dados: Modelagem e manipulação de dados com MongoDB e Prisma.
+
+Criação e consumo de API: Backend robusto em Node.js e frontend dinâmico em Next.js.
+
+UX/UI: Interfaces distintas para Clientes (formulário) e Operadores (dashboard admin).
+
+## 👥 Funcionalidades
+
+#### Interface do Usuário (Cliente)
+
+Formulário para preenchimento de dados pessoais (Nome, E-mail, Telefone...).
+
+Upload de arquivos (imagem do perfil do usuário).
+
+#### Interface do Operador (Admin)
+
+Listagem completa de clientes cadastrados.
+
+Visualização de detalhes e edição de dados.
+
+Acesso direto ao arquivo armazenado no AWS S3 via URL.
 
 ## 🚀 Tecnologias
 
@@ -30,7 +63,9 @@ Este é um projeto full stack que utiliza Node.js com Prisma e MongoDB no backen
 
 Abra o seu terminal e execute o comando abaixo:
 
-git clone [https://github.com/seu-usuario/seu-repositorio.git](https://github.com/seu-usuario/seu-repositorio.git)
+``` bash
+git clone [https://github.com/dev-brunosantos/Escoramento.com.git](https://github.com/dev-brunosantos/Escoramento.com.git)
+```
 
 Em seguida, entre na pasta raiz do projeto:
 
@@ -40,34 +75,44 @@ cd seu-repositorio
 
 2. Configurando o Backend
 
-Acessar a pasta:
+- Acessar a pasta:
+
 ``` bash
-cd backend
+cd back
 ```
 
-Instalar as dependências:
+- Instalar as dependências:
 
 ``` bash
 npm install
 ``` 
 
-Configurar Variáveis de Ambiente:
+- Configurar Variáveis de Ambiente:
+
 Crie um arquivo .env na pasta backend e adicione suas credenciais do MongoDB e AWS S3:
 
-DATABASE_URL="mongodb+srv://..."
-AWS_ACCESS_KEY_ID="..."
-AWS_SECRET_ACCESS_KEY="..."
-AWS_REGION="..."
-AWS_S3_BUCKET="..."
+```
+PORT=PORTA DA APLICAÇÃO
+NODE_ENV=development
+DATABASE_URL="URL DE CONEXÃO DO MONGO DB"
+JWT_SECRET="SEGREDO DO JWT"
+JWT_EXPIRES_IN=1d
+AWS_ACCESS_KEY_ID= "ACCESS_KEY GERADO NA AWS"
+AWS_SECRET_ACCESS_KEY= "SECRET_ACCESS GERADO NA AWS"
+AWS_REGION= "REGIÃO DO S3 DA AWS"
+AWS_BUCKET_NAME= "NOME DO BUCKET"
+AWS_S3_BUCKET_URL="NOME DO BUCKET"
+```
 
+###### => OBS: Existe um arquivo um arquivo '.env.example' com o modelo das variáveis de ambiente usadas na aplicação 
 
-Rodar em modo de desenvolvimento:
+- Rodar em modo de desenvolvimento:
 
 ``` bash
 npm run dev
 ``` 
 
-Build da aplicação:
+- Build da aplicação:
 
 ``` bash
 npm run build
@@ -75,25 +120,25 @@ npm run build
 
 3. Configurando o Frontend
 
-Acessar a pasta (a partir da raiz):
+- Acessar a pasta (a partir da raiz):
 
 ``` bash
-cd frontend
+cd front
 ``` 
 
-Instalar as dependências:
+- Instalar as dependências:
 
 ``` bash
 npm install --force
 ``` 
 
-Rodar em modo de desenvolvimento:
+- Rodar em modo de desenvolvimento:
 
 ``` bash
 npm run dev
 ``` 
 
-Build da aplicação:
+- Build da aplicação:
 
 ``` bash
 npm run build
@@ -114,3 +159,11 @@ No Backend e Frontend:
 Certifique-se de que o MongoDB está acessível.
 
 Caso utilize o Prisma, você pode precisar rodar npx prisma generate após instalar as dependências para garantir que o cliente do banco de dados seja criado corretamente.
+
+##### => Como encontrar a URL de conexão do MongoDB Atlas?
+
+![alt text](image-4.png)
+
+![alt text](image-5.png)
+
+![alt text](image-3.png)
