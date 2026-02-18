@@ -8,18 +8,23 @@ import { useClients } from "../../hooks/useClients";
 import { InputDate } from "@/src/components/InputDate";
 import { AdminServices } from "@/src/services/adminServices";
 import { IUser } from "@/src/contexts/LoginContext";
+import { toast } from "react-toastify";
+import { useRouter } from "next/navigation";
 
 export interface ClientModalProps {
   client: Clients;
   open: boolean;
-  close: () => void
+  close: () => void;
+  atualizarTela: () => void;
 }
 
 export const ClientDetailsModal = ({
   client,
   open,
-  close
+  close,
+  atualizarTela
 }: ClientModalProps) => {
+  const router = useRouter();
   const [edit, setEdit] = useState(false);
   const [dateType, setDateType] = useState("text");
 
@@ -78,8 +83,9 @@ export const ClientDetailsModal = ({
 
   const deleteData = async () => {
     const response = await deleteUser(client?.id.toString());
-    alert(response)
     setEdit(false)
+    toast.success(`Usuário ${client?.name.toUpperCase()} excluído do sistema`)
+    atualizarTela()
     return close()
   }
 
