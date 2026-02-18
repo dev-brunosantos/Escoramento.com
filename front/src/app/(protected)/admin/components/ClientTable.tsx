@@ -27,7 +27,6 @@ interface Props {
   fetchUsers: () => void;
 }
 
-// export const ClientTable = ({ data }: { data: Clients[] }) => {
 export const ClientTable = ({ data, fetchUsers }:Props) => {
 
   const [openModal, setOpenModal] = useState(false);

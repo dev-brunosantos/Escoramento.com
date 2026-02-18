@@ -1,7 +1,4 @@
-
-import { Box } from "@mui/material";
 import { MenuAdmin } from "./MenuAdmin";
-import { grey } from "@mui/material/colors";
 
 export default function ProtectedLayout({
     children,

@@ -5,7 +5,6 @@ import { ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 
 import { AppRouterCacheProvider } from "@mui/material-nextjs/v15-appRouter";
-import { LoginProvider } from "../contexts/LoginContext";
 import { AppProvider } from "../contexts/AppContext";
 
 const geistSans = Geist({

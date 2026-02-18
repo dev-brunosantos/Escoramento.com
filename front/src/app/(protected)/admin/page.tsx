@@ -1,6 +1,5 @@
 "use client";
 
-
 import {
   Box,
   Button,
@@ -27,14 +26,11 @@ import {
 
 import { grey } from "@mui/material/colors";
 import { Clients, ClientTable } from "./components/ClientTable";
-import { ClientFilter } from "./components/ClientFilter";
-import { MenuAdmin } from "./components/MenuAdmin";
 import { useLogin } from "@/src/contexts/LoginContext";
 import { useCallback, useEffect, useState } from "react";
 import { AdminServices } from "@/src/services/adminServices";
 import { RoleGuard } from "@/src/components/RoleGuard";
 import { useRouter, useSearchParams } from "next/navigation";
-import { ClientDetailsModal } from "./components/modal/ClientDetailsModal";
 import { PerfilDetails } from "../PerfilDetails";
 import { ClientTableMobile } from "./components/ClientTableMobile";
 
@@ -78,7 +74,6 @@ export default function ClientPage() {
   const renderContent = () => {
     switch (currentTab) {
       case "client":
-        // return <ClientTable fetchUsers={fetchUsers} data={users} />;
         return (
           <>
             {isMobile ? (
@@ -108,11 +103,7 @@ export default function ClientPage() {
         
         <CssBaseline />
 
-        {/* <MenuAdmin /> */}
-
-        {/* Content */}
         <Box component="main" sx={{ flexGrow: 1 }}>
-          {/* Topbar */}
           <AppBar
             position="static"
             elevation={0}
@@ -157,7 +148,6 @@ export default function ClientPage() {
             </div>
           </AppBar>
 
-          {/* <Box sx={{ p: 4}} > */}
           <Box  >
             <Card className="sm:max-w-100! lg:max-w-screen!">
               <CardContent>

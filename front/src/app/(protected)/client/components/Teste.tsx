@@ -1,4 +1,4 @@
-import { Edit, Equalizer, Feed } from "@mui/icons-material";
+import { Equalizer, Feed } from "@mui/icons-material";
 import { Tab, Tabs } from "@mui/material"
 import { useState } from "react";
 
@@ -11,7 +11,6 @@ export const Teste = () => {
     };
 
     return (
-        // <Tabs onChange={handleChange}>
         <Tabs
             value={value}
             onChange={handleChange}
@@ -23,13 +22,12 @@ export const Teste = () => {
         >
             <Tab
                 label="Teste"
-                // className="border-2! w-full!" 
                 icon={<Equalizer />}
                 iconPosition="start"
                 sx={{
                     justifyContent: "flex-start",
                     "&.Mui-selected": {
-                        backgroundColor: "#15803d", // green-700
+                        backgroundColor: "#15803d",
                         color: "#fff",
                         fontWeight: "bold",
                     },
@@ -42,7 +40,7 @@ export const Teste = () => {
                 sx={{
                     justifyContent: "flex-start",
                     "&.Mui-selected": {
-                        backgroundColor: "#15803d", // green-700
+                        backgroundColor: "#15803d",
                         color: "#fff",
                         fontWeight: "bold",
                     },

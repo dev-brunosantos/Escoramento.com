@@ -2,6 +2,7 @@
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { useLogin } from "../contexts/LoginContext";
+import { toast } from "react-toastify";
 
 interface RoleGuardProps {
   children: React.ReactNode;
@@ -20,6 +21,7 @@ export function RoleGuard({ children, allowedRole }: RoleGuardProps) {
         const target = user.role === 'ADMIN' ? '/admin' : '/client';
         router.replace(target);
         alert("Você não tem permissão para acessar esta página.");
+        toast.warn("Você não tem permissão para acessar esta página.");
       }
     }
   }, [user, loading, allowedRole, router]);

@@ -1,13 +1,12 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { Modal, TextField, Avatar, IconButton, Button, Select, MenuItem, InputLabel, FormControl, Link, Snackbar, Alert } from "@mui/material";
-import { Close, Edit, Save, Check, Delete } from "@mui/icons-material";
+import { useState } from "react";
+import { Modal, TextField, IconButton, Button, Select, MenuItem, InputLabel, FormControl } from "@mui/material";
+import { Close, Edit, Check, Delete } from "@mui/icons-material";
 import { Clients } from "../ClientTable";
 import { useClients } from "../../hooks/useClients";
 import { InputDate } from "@/src/components/InputDate";
 import { AdminServices } from "@/src/services/adminServices";
-import { IUser } from "@/src/contexts/LoginContext";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 
@@ -73,11 +72,11 @@ export const ClientDetailsModal = ({
 
       const response = await updateUser(client.id.toString(), newData);
 
-      alert("Usuário atualizado com sucesso!");
+      toast.success("Usuário atualizado com sucesso!")
       setEdit(false);
     } catch (error) {
       console.error("Erro ao atualizar:", error);
-      alert("Falha ao atualizar usuário.");
+      toast.error("Falha ao atualizar usuário.");
     }
   }
 

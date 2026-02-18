@@ -1,4 +1,4 @@
-"use client"; // 1. Adicione isso!
+"use client";
 
 import { styled } from '@mui/material/styles';
 import { Button, IconButton, InputAdornment, TextField } from "@mui/material";
@@ -8,7 +8,6 @@ import { Logo } from '@/src/components/Logo';
 import { useNewUser } from '@/src/contexts/NewUserContext';
 import { useRouter } from 'next/navigation';
 
-// O VisuallyHiddenInput deve ficar fora do componente principal
 const VisuallyHiddenInput = styled('input')({
     clip: 'rect(0 0 0 0)',
     clipPath: 'inset(50%)',
@@ -41,11 +40,6 @@ export default function Users() {
 
     const [telefone, setTelefone] = useState("")
 
-    // const handleFileChange = (event: any) => {
-    //     const file = event.target.files[0];
-    //     if (file) setFileName(file.name);
-    // };
-
     const handleFileChange = (event: any) => {
         const selectedFile = event.target.files[0];
 
@@ -65,10 +59,6 @@ export default function Users() {
         formData.append("email", email);
         formData.append("password", senha);
         formData.append("phone", telefone);
-
-        // if (fileName) {
-        //     formData.append("image", fileName);
-        // }
 
         if (file) {
             formData.append("image", file);

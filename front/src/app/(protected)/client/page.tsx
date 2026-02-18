@@ -3,10 +3,7 @@
 import {
   Box,
   Button,
-  Card,
-  CardContent,
   CssBaseline,
-  Grid,
   Typography,
   AppBar,
   Toolbar,
@@ -23,15 +20,12 @@ import {
   Person
 } from "@mui/icons-material";
 
-import { green, grey } from "@mui/material/colors";
-import { MenuClient } from "./components/MenuClient";
+import { grey } from "@mui/material/colors";
 import { ClientTable } from "./components/ClientTable";
 import { useLogin } from "@/src/contexts/LoginContext";
 import { RoleGuard } from "@/src/components/RoleGuard";
 import { useRouter, useSearchParams } from "next/navigation";
 import { PerfilDetails } from "../PerfilDetails";
-import { useMemo } from "react";
-import Link from "next/link";
 
 export default function ClientPage() {
 
@@ -57,11 +51,7 @@ export default function ClientPage() {
       <Box sx={{ display: "flex", minHeight: "100vh", bgcolor: grey[100] }}>
         <CssBaseline />
 
-        {/* <MenuClient /> */}
-
-        {/* Content */}
         <Box component="main" sx={{ flexGrow: 1 }}>
-          {/* Topbar */}
           <AppBar
             position="static"
             elevation={0}

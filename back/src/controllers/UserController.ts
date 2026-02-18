@@ -33,16 +33,6 @@ class UserController {
         }
     }
 
-    // async getAll(req: Request, res: Response) {
-    //     const response = await userServices.users();
-
-    //     if (!response || response.length == 0) {
-    //         return res.status(404).json({ error: "Nenhum usuário cadastrado no sistema." });
-    //     }
-
-    //     return res.json(response)
-    // }
-
     async getAll(req: Request, res: Response) {
         try {
             const name =

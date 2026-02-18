@@ -1,22 +1,3 @@
-// import swaggerJsdoc from "swagger-jsdoc";
-
-// const options: swaggerJsdoc.Options = {
-//   definition: {
-//     openapi: "3.0.0",
-//     info: {
-//       title: "Documentação da API",
-//       version: "1.0.0",
-//       description: "Documentação da API",
-//     },
-//     servers: [
-//       {
-//         url: "http://localhost:4000",
-//       },
-//     ],
-//   },
-//   apis: ["./src/routes/*.ts"], // onde estão suas rotas
-// };
-
 import swaggerJsdoc from "swagger-jsdoc";
 import { config } from "dotenv";
 

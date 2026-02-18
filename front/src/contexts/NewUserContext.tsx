@@ -33,21 +33,6 @@ const NewUserProvider = ({ children }: { children: React.ReactNode }) => {
         image: ""
     });
 
-    // const createUser = async (data: NewUser) => {
-    //     if(!data) {
-    //         return toast.error("Os campos devem ser preenchidos!")
-    //         // return alert("Os campos devem ser preenchidos!")
-    //     }
-    //     else {
-    //         setUser(data)
-    //         const response = await api.post('/users', data)
-
-    //         console.log(response.status)
-
-    //         return alert(response.data)
-    //     }        
-    // }
-
     const createUser = async (data: FormData) => {
         try {
             const name = data.get("name");

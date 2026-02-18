@@ -3,7 +3,6 @@
 import {
   Avatar,
   Box,
-  Button,
   Card,
   CardContent,
   Grid,
@@ -12,8 +11,6 @@ import {
   MenuItem,
   Divider
 } from '@mui/material'
-import DeleteIcon from '@mui/icons-material/Delete'
-import SaveIcon from '@mui/icons-material/Save'
 import { useLogin } from '@/src/contexts/LoginContext'
 
 export const PerfilDetails = () => {
@@ -130,7 +127,7 @@ export const PerfilDetails = () => {
             </Grid>
 
             <Grid item xs={12}>
-              <TextField select fullWidth label="Cargo" defaultValue="ADMIN">
+              <TextField select fullWidth label="Cargo" defaultValue={user?.role} disabled={user?.role == "CLIENT"}>
                 <MenuItem value="ADMIN">Administrador</MenuItem>
                 <MenuItem value="CLIENT">Cliente</MenuItem>
               </TextField>
