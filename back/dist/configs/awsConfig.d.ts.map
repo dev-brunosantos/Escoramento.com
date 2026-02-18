@@ -1,0 +1,1 @@
+{"version":3,"file":"awsConfig.d.ts","sourceRoot":"","sources":["../../src/configs/awsConfig.ts"],"names":[],"mappings":"AAAA,OAAO,EACH,QAAQ,EAMX,MAAM,oBAAoB,CAAC;AAC5B,OAAO,MAAM,MAAM,QAAQ,CAAC;AAQ5B,eAAO,MAAM,EAAE,UAMb,CAAC;AAEH,eAAO,MAAM,QAAQ,eAcnB,CAAA;AAEF,eAAO,MAAM,YAAY,qBAuDxB,CAAC;AAEF,eAAO,MAAM,YAAY,GAAU,KAAK,MAAM,kBAY7C,CAAC"}
