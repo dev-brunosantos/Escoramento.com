@@ -64,7 +64,7 @@ Acesso direto ao arquivo armazenado no AWS S3 via URL.
 Abra o seu terminal e execute o comando abaixo:
 
 ``` bash
-git https://github.com/dev-brunosantos/Escoramento.com.git
+git clone https://github.com/dev-brunosantos/Escoramento.com.git
 ```
 
 Em seguida, entre na pasta raiz do projeto:
@@ -84,8 +84,12 @@ cd back
 - Instalar as dependências:
 
 ``` bash
-npm install
+npm install --force
 ``` 
+
+___
+###### => OBS: Foi usado o MongoDB Atlas. Para rodar este projeto, você precisará de uma instância do MongoDB.
+___
 
 - Configurar Variáveis de Ambiente:
 
@@ -103,14 +107,27 @@ AWS_REGION= "REGIÃO DO S3 DA AWS"
 AWS_BUCKET_NAME= "NOME DO BUCKET"
 AWS_S3_BUCKET_URL="NOME DO BUCKET"
 ```
-
+___
 ###### => OBS: Existe um arquivo um arquivo '.env.example' com o modelo das variáveis de ambiente usadas na aplicação 
+___
+
+- Configurando o PRISMA para realizar comunicação com o MongoDB 
+
+``` bash
+npx prisma db push
+npx prisma generate
+```
 
 - Rodar em modo de desenvolvimento:
 
 ``` bash
 npm run dev
 ``` 
+
+Ao rodar a aplicação, será executado uma função antes de "ligar" o servidor. 
+Essa função tem a responsabilidade de vericar se o Bucket informado existe. Caso o nome do Bucket indormano no arquivo .env não exista, será criado de forma automatica. 
+
+Ao cadastrar um novo usuário, o usuário é criado como CLIENT e para realização do teste deverá ser alterado o campo ROLE diretamente no banco para ADMIN.
 
 - Build da aplicação:
 
