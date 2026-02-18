@@ -162,8 +162,8 @@ Caso utilize o Prisma, você pode precisar rodar npx prisma generate após insta
 
 ##### => Como encontrar a URL de conexão do MongoDB Atlas?
 
-![alt text](image-4.png)
+<img width="1319" height="237" alt="image" src="https://github.com/user-attachments/assets/cd5b9f75-575a-4e95-9839-815ec63ef773" />
 
-![alt text](image-5.png)
+<img width="775" height="306" alt="image" src="https://github.com/user-attachments/assets/ad86eb5f-0c68-4fcb-a9fb-0a00d8b7e882" />
 
-![alt text](image-3.png)
+<img width="771" height="232" alt="image" src="https://github.com/user-attachments/assets/efd90c58-e73e-4ca4-aad8-72c639569ce6" />
