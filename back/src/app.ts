@@ -4,12 +4,14 @@ import swaggerUi from "swagger-ui-express";
 import { swaggerSpec } from "./configs/swagger.js";
 import { routes } from "./routes/routes.js";
 import { LoginController } from "./controllers/LoginController.js";
+import { join } from "path";
 
 const app = express();
 
 app.use(cors());
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
+app.use(express.static(join(process.cwd(), "public")));
 app.use(routes.userRoutes);
 
 const loginController = new LoginController();
@@ -36,6 +38,10 @@ const loginController = new LoginController();
  *       401:
  *         description: Credenciais inválidas
  */
+
+app.get("/", (req, res) => {
+    res.sendFile(join(process.cwd(), "public", "index.html"));
+});
 
 app.post('/login', async (req: Request, res: Response) => {
     await loginController.login(req, res);
