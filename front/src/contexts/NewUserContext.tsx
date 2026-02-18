@@ -2,6 +2,7 @@
 
 import { createContext, useContext, useState } from "react";
 import { api } from "../config/axios.config";
+import { toast } from "react-toastify";
 
 interface NewUser {
     name: string;
@@ -15,7 +16,7 @@ interface NewUser {
 
 interface UserCreate {
     user: NewUser,
-    createUser: (data: NewUser) => void;
+    createUser: (data: FormData) => void;
 }
 
 const NewUserContext = createContext<UserCreate | null>(null)
@@ -32,16 +33,51 @@ const NewUserProvider = ({ children }: { children: React.ReactNode }) => {
         image: ""
     });
 
-    const createUser = async (data: NewUser) => {
-        if(!data) {
-            return alert("Os campos devem ser preenchidos!")
+    // const createUser = async (data: NewUser) => {
+    //     if(!data) {
+    //         return toast.error("Os campos devem ser preenchidos!")
+    //         // return alert("Os campos devem ser preenchidos!")
+    //     }
+    //     else {
+    //         setUser(data)
+    //         const response = await api.post('/users', data)
+
+    //         console.log(response.status)
+
+    //         return alert(response.data)
+    //     }        
+    // }
+
+    const createUser = async (data: FormData) => {
+        try {
+            const name = data.get("name");
+            const email = data.get("email");
+            const password = data.get("password");
+
+            if (!name || !email || !password) {
+                toast.warning("Preencha todos os campos obrigatórios!");
+                return;
+            }
+
+            const response = await api.post("/users", data, {
+                headers: {
+                    "Content-Type": "multipart/form-data",
+                },
+            });
+
+            toast.success("Usuário cadastrado com sucesso!");
+
+            return response.data;
+
+        } catch (error: any) {
+            console.error(error);
+
+            toast.error(
+                error?.response?.data?.message ||
+                "Erro ao cadastrar usuário"
+            );
         }
-        else {
-            setUser(data)
-            const response = await api.post('/users', data)
-            return alert(response.data)
-        }        
-    }
+    };
 
     return (
         <NewUserContext.Provider value={{

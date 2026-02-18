@@ -104,13 +104,29 @@ AWS_BUCKET_NAME= "NOME DO BUCKET"
 AWS_S3_BUCKET_URL="NOME DO BUCKET"
 ```
 
+___
+
 ###### => OBS: Existe um arquivo um arquivo '.env.example' com o modelo das variáveis de ambiente usadas na aplicação 
+___
+- Rodando scripts do PRISMA:
+
+``` bash
+npx prisma db push
+npx prisma generate
+``` 
+
+- Rodar em modo de desenvolvimento:
 
 - Rodar em modo de desenvolvimento:
 
 ``` bash
 npm run dev
 ``` 
+
+___
+
+###### => OBS: Todos os usuários são criados com a ROLE de CLIENT. Com isso, para realização do teste como administrador, deverá alterar o campo ROLE diretamente no banco
+___
 
 - Build da aplicação:
 

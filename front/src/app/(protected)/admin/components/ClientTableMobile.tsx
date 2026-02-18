@@ -105,6 +105,7 @@ export function ClientTableMobile({ data, fetchUsers }: Props) {
         client={selectedClient!}
         open={openModal}
         close={() => setOpenModal(false)}
+        atualizarTela={fetchUsers}
       />
     </div>
   );

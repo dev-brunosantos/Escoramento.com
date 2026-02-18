@@ -5,6 +5,8 @@ import { api } from "../config/axios.config";
 import { useRouter } from "next/navigation";
 import Cookies from 'js-cookie';
 
+import { toast } from "react-toastify";
+
 interface UseLogin {
     email: string;
     password: string;
@@ -54,14 +56,15 @@ const LoginProvider = ({ children }: { children: React.ReactNode }) => {
 
     const login = async ({ email, password }: UseLogin) => {
         if (!email || !password) {
-            return alert("Todos os campos devem ser preenchidos!")
+            return toast.warning("Todos os campos devem ser preenchidos!")
+            // return alert("Todos os campos devem ser preenchidos!")
         }
 
         try {
             const request = await api.post('/login', { email, password });
 
             if (!request.data || !request.data.user) {
-                return alert("Usuário não encontrado.");
+                return toast.error("Usuário não encontrado.");
             }
 
             const userData = request.data.user;
@@ -78,8 +81,11 @@ const LoginProvider = ({ children }: { children: React.ReactNode }) => {
             } else {
                 router.push('/client?tab=dashboard');
             }
-        } catch (error) {
-            alert("Erro ao realizar login. Verifique suas credenciais.");
+        } catch (error: any) {
+            if(error.status == 404) {
+                return toast.warn("Usuário não encontrado.");
+            }
+            toast.error("Erro ao realizar login. Verifique suas credenciais.");
         }
     }
 
